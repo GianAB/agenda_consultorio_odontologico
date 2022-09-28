@@ -4,6 +4,9 @@
  */
 package application;
 
+import entities.Contato;
+import entities.Paciente;
+
 /**
  *
  * @author giang
@@ -15,7 +18,10 @@ public class Program {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Hello world!");
+        Paciente pa1 = new Paciente("Gian", "Antonio", "32837737463");
+        Contato co1 = new Contato("3338475225", "33918273354", pa1);
+        
+        System.out.println(co1);
                 
     }
     
