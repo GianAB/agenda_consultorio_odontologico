@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package entities;
+package model.entities;
 
 /**
  *
@@ -10,11 +10,10 @@ package entities;
  */
 public class Contato {
 
-    private Integer id;
     private String telefone;
     private String celular;
     private Paciente paciente;
-    
+
     public Contato() {
 
     }
@@ -23,21 +22,6 @@ public class Contato {
         this.telefone = telefone;
         this.celular = celular;
         this.paciente = paciente;
-    }
-
-    public Contato(Integer id, String telefone, String celular, Paciente paciente) {
-        this.id = id;
-        this.telefone = telefone;
-        this.celular = celular;
-        this.paciente = paciente;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTelefone() {
@@ -64,12 +48,10 @@ public class Contato {
         this.paciente = paciente;
     }
 
-    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Contato{");
-        sb.append("id=").append(id);
         sb.append(", telefone=").append(telefone);
         sb.append(", celular=").append(celular);
         sb.append(", paciente=").append(paciente);
