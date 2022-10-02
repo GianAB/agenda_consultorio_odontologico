@@ -23,7 +23,4 @@ public interface DentistaDao {
     void update(Dentista dentista);
 
     void deleteById(Integer id);
-
-    List<Especialidade> findEspecialidadePerDenstista(Integer idDentista);
-
 }

@@ -22,5 +22,5 @@ public interface EspecialidadeDao {
     void update(Especialidade especialidade);
 
     void deleteById(Integer id);
-
+    
 }

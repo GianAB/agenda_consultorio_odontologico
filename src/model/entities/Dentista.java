@@ -37,11 +37,11 @@ public class Dentista {
         this.especialidades.add(especialidade);
     }
 
-    public Especialidade getDenstita(Integer index) {
+    public Especialidade getEspecialidade(Integer index) {
         return this.especialidades.get(index);
     }
 
-    public void removeDentista(Integer index) {
+    public void removeEspecialidade(Integer index) {
         this.especialidades.remove(index);
     }
 
