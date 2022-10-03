@@ -36,8 +36,9 @@ public class Program {
         DentistaDao dentistaDao = DaoFactory.createDentistaDao();
         EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
         
-        System.out.println(dentistaDao.findById(1));
-        System.out.println(especialidadeDao.findAll());
+        //System.out.println(dentistaDao.findById(1));
+        System.out.println(dentistaDao.findAll());
+        
         
         DB.closeConnection();
     }

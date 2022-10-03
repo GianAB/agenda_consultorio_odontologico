@@ -8,14 +8,16 @@ import db.DB;
 import java.util.List;
 import model.dao.DentistaDao;
 import model.entities.Dentista;
-import model.entities.Especialidade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import db.DBException;
+import java.util.ArrayList;
 import model.dao.DaoFactory;
+import model.dao.DentistaDto;
 import model.dao.EspecialidadeDao;
+import model.entities.Especialidade;
 
 /**
  *
@@ -49,17 +51,13 @@ public class DentistaDaoJdbc implements DentistaDao {
             rs = st.executeQuery();
 
             if (rs.first()) {
-                EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
+                rs.first();
+                
                 dentista.setId(rs.getInt("id_dentista"));
                 dentista.setNome(rs.getString("dentista"));
                 dentista.setCro(rs.getString("cro"));
-                rs.first();
-                
-                do {
-                    
-                    dentista.addEspecialidade(especialidadeDao.findById(rs.getInt("id_especialidade")));
 
-                } while (rs.next());
+                dentista.getEspecialidades().addAll(this.findEspecialidadesByDentistaId(rs.getInt("id_especialidade")));
 
                 return dentista;
             }
@@ -74,8 +72,31 @@ public class DentistaDaoJdbc implements DentistaDao {
     }
 
     @Override
-    public List<Dentista> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<DentistaDto> findAll() {
+        ResultSet rs = null;
+        List<DentistaDto> dentistasDto;
+
+        try {
+            PreparedStatement st = conn.prepareStatement("SELECT  * FROM tb_dentista");
+            rs = st.executeQuery();
+
+            if (rs.first()) {
+                rs.first();
+                dentistasDto = new ArrayList<>();
+                do {
+                    dentistasDto.add(new DentistaDto(rs.getInt("id"), rs.getString("nome"), rs.getString("cro")));
+                } while (rs.next());
+
+                return dentistasDto;
+            }
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+            DB.closeResultset();
+        }
+        return null;
     }
 
     @Override
@@ -86,5 +107,36 @@ public class DentistaDaoJdbc implements DentistaDao {
     @Override
     public void deleteById(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private List<Especialidade> findEspecialidadesByDentistaId(Integer idDentista) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = conn.prepareStatement("SELECT * FROM tb_dentista_especialidade WHERE id_dentista = ?");
+            st.setInt(1, idDentista);
+            rs = st.executeQuery();
+
+            if (rs.first()) {
+                rs.first();
+                EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
+
+                List<Especialidade> especialidades = new ArrayList<>();
+
+                do {
+                    especialidades.add(especialidadeDao.findById(rs.getInt("id_especialidade")));
+                } while (rs.next());
+                
+                return especialidades;
+            }
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+            DB.closeResultset();
+        }
+        return null;
     }
 }

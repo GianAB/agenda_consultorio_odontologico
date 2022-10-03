@@ -40,7 +40,11 @@ public class Dentista {
     public Especialidade getEspecialidade(Integer index) {
         return this.especialidades.get(index);
     }
-
+    
+    public List<Especialidade> getEspecialidades(){
+        return this.especialidades;
+    }
+    
     public void removeEspecialidade(Integer index) {
         this.especialidades.remove(index);
     }

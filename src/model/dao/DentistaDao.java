@@ -6,7 +6,6 @@ package model.dao;
 
 import java.util.List;
 import model.entities.Dentista;
-import model.entities.Especialidade;
 
 /**
  *
@@ -18,7 +17,7 @@ public interface DentistaDao {
 
     Dentista findById(Integer id);
 
-    List<Dentista> findAll();
+    List<DentistaDto> findAll();
 
     void update(Dentista dentista);
 
