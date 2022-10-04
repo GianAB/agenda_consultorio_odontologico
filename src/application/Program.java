@@ -5,21 +5,11 @@
 package application;
 
 import db.DB;
-import model.entities.Anamnese;
-import model.entities.Consulta;
-import model.entities.Contato;
-import model.entities.Dentista;
-import model.entities.Especialidade;
-import model.entities.Paciente;
-import model.entities.Procedimento;
-import model.entities.enums.Pagamento;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import model.dao.DaoFactory;
 import model.dao.DentistaDao;
 import model.dao.EspecialidadeDao;
-import model.impl.DentistaDaoJdbc;
+import model.entities.Dentista;
+import model.entities.Especialidade;
 
 /**
  *
@@ -36,8 +26,18 @@ public class Program {
         DentistaDao dentistaDao = DaoFactory.createDentistaDao();
         EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
         
-        //System.out.println(dentistaDao.findById(1));
-        System.out.println(dentistaDao.findAll());
+        Dentista novoDentista = new Dentista("Marquim das Meninas", "MG585732223");
+        novoDentista.getEspecialidades().add(especialidadeDao.findById(1));
+        novoDentista.getEspecialidades().add(especialidadeDao.findById(3));
+        novoDentista.getEspecialidades().add(especialidadeDao.findById(4));
+        
+        System.out.println("Antes de inserir no Banco de Dados:\n" + novoDentista);
+        dentistaDao.insert(novoDentista);
+        
+        //System.out.println(dentistaDao.findById(5));
+        //System.out.println(dentistaDao.findAll());
+        System.out.println("Depois de inserir no Banco de Dados:\n" + novoDentista);
+        
         
         
         DB.closeConnection();

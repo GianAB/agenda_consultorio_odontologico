@@ -31,6 +31,11 @@ public class DentistaDto {
         return this;
     }
 
+    public DentistaDto(String nome, String cro) {
+        this.nome = nome;
+        this.cro = cro;
+    }
+
     public DentistaDto(Integer id, String nome, String cro) {
         this.id = id;
         this.nome = nome;

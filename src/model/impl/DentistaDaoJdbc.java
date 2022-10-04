@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import db.DBException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.dao.DaoFactory;
 import model.dao.DentistaDto;
 import model.dao.EspecialidadeDao;
@@ -33,7 +35,49 @@ public class DentistaDaoJdbc implements DentistaDao {
 
     @Override
     public void insert(Dentista dentista) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ResultSet rs = null;
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("INSERT INTO tb_dentista(nome, cro) VALUES (?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
+            st.setString(1, dentista.getNome());
+            st.setString(2, dentista.getCro());
+
+            int keyGenerated = st.executeUpdate();
+
+            if (keyGenerated > 0) {
+                rs = st.getGeneratedKeys();
+                rs.first();
+                dentista.setId(rs.getInt(1));
+                rs.close();
+            }
+
+            for (Especialidade especialidade : dentista.getEspecialidades()) {
+                try {
+                    st = conn.prepareStatement("INSERT INTO tb_dentista_especialidade(id_dentista, id_especialidade) VALUES (?, ?)");
+                    st.setInt(1, dentista.getId());
+                    st.setInt(2, especialidade.getId());
+                    st.execute();
+
+                } catch (SQLException e) {
+                    throw new DBException(e.getMessage());
+
+                } finally {
+                    st.close();
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        } finally {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                throw new DBException(e.getMessage());
+            }
+        }
     }
 
     @Override
@@ -52,7 +96,7 @@ public class DentistaDaoJdbc implements DentistaDao {
 
             if (rs.first()) {
                 rs.first();
-                
+
                 dentista.setId(rs.getInt("id_dentista"));
                 dentista.setNome(rs.getString("dentista"));
                 dentista.setCro(rs.getString("cro"));
@@ -127,7 +171,7 @@ public class DentistaDaoJdbc implements DentistaDao {
                 do {
                     especialidades.add(especialidadeDao.findById(rs.getInt("id_especialidade")));
                 } while (rs.next());
-                
+
                 return especialidades;
             }
         } catch (SQLException e) {
