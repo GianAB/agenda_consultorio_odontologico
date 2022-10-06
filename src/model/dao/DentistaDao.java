@@ -19,7 +19,7 @@ public interface DentistaDao {
 
     List<DentistaDto> findAll();
 
-    void update(Dentista dentista);
+    int update(Dentista dentista);
 
     void deleteById(Integer id);
 }

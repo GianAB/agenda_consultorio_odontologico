@@ -22,24 +22,28 @@ public class Program {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
+
         DentistaDao dentistaDao = DaoFactory.createDentistaDao();
         EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
-        
+        /*
         Dentista novoDentista = new Dentista("Marquim das Meninas", "MG585732223");
         novoDentista.getEspecialidades().add(especialidadeDao.findById(1));
         novoDentista.getEspecialidades().add(especialidadeDao.findById(3));
         novoDentista.getEspecialidades().add(especialidadeDao.findById(4));
-        
+
         System.out.println("Antes de inserir no Banco de Dados:\n" + novoDentista);
         dentistaDao.insert(novoDentista);
-        
-        //System.out.println(dentistaDao.findById(5));
-        //System.out.println(dentistaDao.findAll());
+
+        System.out.println(dentistaDao.findById(novoDentista.getId()));
+        System.out.println(dentistaDao.findAll());
         System.out.println("Depois de inserir no Banco de Dados:\n" + novoDentista);
-        
-        
-        
+         */
+
+        Dentista updateDentista = new Dentista(7, "Mark Knopfler");
+        System.out.println("Antes do update:\n" + dentistaDao.findById(updateDentista.getId()));
+        System.out.println("Linhas afetadas: " + dentistaDao.update(updateDentista));
+        System.out.println("Depois do update:\n" + dentistaDao.findById(updateDentista.getId()));
+
         DB.closeConnection();
     }
 }

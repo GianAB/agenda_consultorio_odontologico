@@ -14,8 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import db.DBException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.dao.DaoFactory;
 import model.dao.DentistaDto;
 import model.dao.EspecialidadeDao;
@@ -45,13 +44,12 @@ public class DentistaDaoJdbc implements DentistaDao {
             st.setString(1, dentista.getNome());
             st.setString(2, dentista.getCro());
 
-            int keyGenerated = st.executeUpdate();
+            int rowsAffected = st.executeUpdate();
 
-            if (keyGenerated > 0) {
+            if (rowsAffected > 0) {
                 rs = st.getGeneratedKeys();
                 rs.first();
                 dentista.setId(rs.getInt(1));
-                rs.close();
             }
 
             for (Especialidade especialidade : dentista.getEspecialidades()) {
@@ -70,13 +68,8 @@ public class DentistaDaoJdbc implements DentistaDao {
             }
 
         } catch (SQLException e) {
-            throw new DBException(e.getMessage());
-        } finally {
-            try {
-                st.close();
-            } catch (SQLException e) {
-                throw new DBException(e.getMessage());
-            }
+            DB.closeStatement();
+            DB.closeResultset();
         }
     }
 
@@ -144,8 +137,26 @@ public class DentistaDaoJdbc implements DentistaDao {
     }
 
     @Override
-    public void update(Dentista dentista) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int update(Dentista dentista) {
+        int rowsAffected;
+        
+        if (this.findById(dentista.getId()) == null) {
+            throw new NullPointerException("Não existe dentista com este id!");
+        }
+
+        try {
+            PreparedStatement st = conn.prepareStatement("UPDATE tb_dentista SET nome = ? WHERE id = ?");
+            st.setString(1, dentista.getNome());
+            st.setInt(2, dentista.getId());
+            rowsAffected = st.executeUpdate();
+            
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+        }
+        return rowsAffected;
     }
 
     @Override

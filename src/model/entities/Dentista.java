@@ -12,13 +12,19 @@ import java.util.List;
  * @author giang
  */
 public class Dentista {
+
     private Integer id;
     private String nome;
     private String cro;
     private List<Especialidade> especialidades;
-    
-    public Dentista()   {
+
+    public Dentista() {
         this.especialidades = new ArrayList<>();
+    }
+
+    public Dentista(Integer id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
     public Dentista(String nome, String cro) {
@@ -26,13 +32,14 @@ public class Dentista {
         this.cro = cro;
         this.especialidades = new ArrayList<>();
     }
-    
+
     public Dentista(Integer id, String nome, String cro) {
         this.id = id;
         this.nome = nome;
         this.cro = cro;
         this.especialidades = new ArrayList<>();
     }
+
     public void addEspecialidade(Especialidade especialidade) {
         this.especialidades.add(especialidade);
     }
@@ -40,11 +47,11 @@ public class Dentista {
     public Especialidade getEspecialidade(Integer index) {
         return this.especialidades.get(index);
     }
-    
-    public List<Especialidade> getEspecialidades(){
+
+    public List<Especialidade> getEspecialidades() {
         return this.especialidades;
     }
-    
+
     public void removeEspecialidade(Integer index) {
         this.especialidades.remove(index);
     }
