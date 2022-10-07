@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import db.DBException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import model.dao.DaoFactory;
 import model.dao.DentistaDto;
 import model.dao.EspecialidadeDao;
@@ -139,8 +138,8 @@ public class DentistaDaoJdbc implements DentistaDao {
     @Override
     public int update(Dentista dentista) {
         int rowsAffected;
-        
-        if (this.findById(dentista.getId()) == null) {
+
+        if (dentista.getId() == null) {
             throw new NullPointerException("Não existe dentista com este id!");
         }
 
@@ -149,7 +148,7 @@ public class DentistaDaoJdbc implements DentistaDao {
             st.setString(1, dentista.getNome());
             st.setInt(2, dentista.getId());
             rowsAffected = st.executeUpdate();
-            
+
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
 
@@ -160,18 +159,32 @@ public class DentistaDaoJdbc implements DentistaDao {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int deleteById(Integer id) {
+        if (id == null) {
+            throw new NullPointerException("Não existe dentista com este id!");
+        }
+
+        int rowsAffected;
+
+        try {
+            PreparedStatement st = conn.prepareStatement("DELETE FROM tb_dentista WHERE id = ?");
+            st.setInt(1, id);
+            rowsAffected = st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+        }
+        return rowsAffected;
     }
 
     private List<Especialidade> findEspecialidadesByDentistaId(Integer idDentista) {
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
         try {
-            st = conn.prepareStatement("SELECT * FROM tb_dentista_especialidade WHERE id_dentista = ?");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_dentista_especialidade WHERE id_dentista = ?");
             st.setInt(1, idDentista);
-            rs = st.executeQuery();
+           ResultSet rs = st.executeQuery();
 
             if (rs.first()) {
                 rs.first();

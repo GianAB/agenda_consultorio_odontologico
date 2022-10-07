@@ -33,17 +33,19 @@ public class Program {
 
         System.out.println("Antes de inserir no Banco de Dados:\n" + novoDentista);
         dentistaDao.insert(novoDentista);
-
-        System.out.println(dentistaDao.findById(novoDentista.getId()));
+        System.out.println(dentistaDao.findById(8));        
         System.out.println(dentistaDao.findAll());
         System.out.println("Depois de inserir no Banco de Dados:\n" + novoDentista);
          */
 
+ /*
         Dentista updateDentista = new Dentista(7, "Mark Knopfler");
         System.out.println("Antes do update:\n" + dentistaDao.findById(updateDentista.getId()));
         System.out.println("Linhas afetadas: " + dentistaDao.update(updateDentista));
         System.out.println("Depois do update:\n" + dentistaDao.findById(updateDentista.getId()));
-
+         */
+        
+        System.out.println("Linhas afetadas: " + dentistaDao.deleteById(7));
         DB.closeConnection();
     }
 }

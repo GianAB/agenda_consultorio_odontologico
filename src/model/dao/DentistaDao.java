@@ -21,5 +21,5 @@ public interface DentistaDao {
 
     int update(Dentista dentista);
 
-    void deleteById(Integer id);
+    int deleteById(Integer id);
 }
