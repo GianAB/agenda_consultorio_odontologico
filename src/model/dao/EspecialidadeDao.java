@@ -19,8 +19,8 @@ public interface EspecialidadeDao {
 
     List<Especialidade> findAll();
 
-    void update(Especialidade especialidade);
+    int update(Especialidade especialidade);
 
-    void deleteById(Integer id);
+    int deleteById(Integer id);
     
 }

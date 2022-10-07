@@ -36,16 +36,28 @@ public class Program {
         System.out.println(dentistaDao.findById(8));        
         System.out.println(dentistaDao.findAll());
         System.out.println("Depois de inserir no Banco de Dados:\n" + novoDentista);
-         */
 
- /*
         Dentista updateDentista = new Dentista(7, "Mark Knopfler");
         System.out.println("Antes do update:\n" + dentistaDao.findById(updateDentista.getId()));
         System.out.println("Linhas afetadas: " + dentistaDao.update(updateDentista));
         System.out.println("Depois do update:\n" + dentistaDao.findById(updateDentista.getId()));
+                
+        System.out.println("Linhas afetadas: " + dentistaDao.deleteById(7));
          */
         
-        System.out.println("Linhas afetadas: " + dentistaDao.deleteById(7));
+        Especialidade esp1 = new Especialidade("Odontologia Estética");
+        especialidadeDao.insert(esp1);
+        System.out.println(esp1);
+         
+        System.out.println("FindById:\n" +  especialidadeDao.findById(1));
+        System.out.println("FindById:\n" +  especialidadeDao.findAll());
+        
+        Especialidade espUpdate = new Especialidade(7, "Estética Odontológica");
+        System.out.println("Linhas afetadas: " + especialidadeDao.update(espUpdate));
+        System.out.println(especialidadeDao.findById(espUpdate.getId()));
+        
+        System.out.println("Linhas afetadas: " + especialidadeDao.deleteById(7));
+        
         DB.closeConnection();
     }
 }

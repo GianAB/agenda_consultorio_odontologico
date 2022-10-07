@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.entities.Dentista;
 
 /**
  *
@@ -30,23 +29,43 @@ public class EspecialidadeDaoJdbc implements EspecialidadeDao {
 
     @Override
     public void insert(Especialidade especialidade) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            PreparedStatement st = conn.prepareStatement("INSERT INTO tb_especialidade(descricao) VALUES(?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
+            st.setString(1, especialidade.getDescricao());
+
+            int rowsAffected = st.executeUpdate();
+
+            if (rowsAffected > 0) {
+                ResultSet rs = st.getGeneratedKeys();
+                rs.first();
+                especialidade.setId(rs.getInt(1));
+                DB.closeResultset();
+            }
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+        }
     }
 
     @Override
     public Especialidade findById(Integer id) {
-        ResultSet rs = null;
         Especialidade especialidade;
+
         try {
             PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_especialidade WHERE id = ?");
             st.setInt(1, id);
-            
-            rs = st.executeQuery();
+
+            ResultSet rs = st.executeQuery();
 
             if (rs.first()) {
                 rs.first();
                 especialidade = new Especialidade(rs.getInt("id"), rs.getString("descricao"));
-                
+
                 return especialidade;
             }
         } catch (SQLException e) {
@@ -61,18 +80,18 @@ public class EspecialidadeDaoJdbc implements EspecialidadeDao {
 
     @Override
     public List<Especialidade> findAll() {
-        ResultSet rs = null;
         List<Especialidade> especialidades = new ArrayList<>();
         try {
             PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_especialidade");
-            rs = st.executeQuery();
+            ResultSet rs = st.executeQuery();
 
             if (rs.first()) {
                 rs.first();
-                do{
-                    especialidades.add(new Especialidade(rs.getInt("id"), rs.getString("descricao")));
-                }while(rs.next());
                 
+                do {
+                    especialidades.add(new Especialidade(rs.getInt("id"), rs.getString("descricao")));
+                } while (rs.next());
+
                 return especialidades;
             }
         } catch (SQLException e) {
@@ -86,13 +105,49 @@ public class EspecialidadeDaoJdbc implements EspecialidadeDao {
     }
 
     @Override
-    public void update(Especialidade especialidade) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int update(Especialidade especialidade) {
+        int rowsAffected;
+
+        if (especialidade.getId() == null) {
+            throw new NullPointerException("Não existe especialidade com este id!");
+        }
+
+        try {
+            PreparedStatement st = conn.prepareStatement("UPDATE tb_especialidade SET descricao = ? WHERE id = ?");
+            st.setString(1, especialidade.getDescricao());
+            st.setInt(2, especialidade.getId());
+
+            rowsAffected = st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+        }
+        return rowsAffected;
     }
 
     @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int deleteById(Integer id) {
+        if (id == null) {
+            throw new NullPointerException("Não existe dentista com este id!");
+        }
+
+        int rowsAffected;
+
+        try {
+            PreparedStatement st = conn.prepareStatement("DELETE FROM tb_especialidade WHERE id = ?");
+            st.setInt(1, id);
+            rowsAffected = st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+
+        } finally {
+            DB.closeStatement();
+        }
+        return rowsAffected;
     }
 
 }

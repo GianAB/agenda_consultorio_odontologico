@@ -33,11 +33,9 @@ public class DentistaDaoJdbc implements DentistaDao {
 
     @Override
     public void insert(Dentista dentista) {
-        ResultSet rs = null;
-        PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("INSERT INTO tb_dentista(nome, cro) VALUES (?, ?)",
+            PreparedStatement st = conn.prepareStatement("INSERT INTO tb_dentista(nome, cro) VALUES (?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
             st.setString(1, dentista.getNome());
@@ -46,9 +44,10 @@ public class DentistaDaoJdbc implements DentistaDao {
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
-                rs = st.getGeneratedKeys();
+                ResultSet rs = st.getGeneratedKeys();
                 rs.first();
                 dentista.setId(rs.getInt(1));
+
             }
 
             for (Especialidade especialidade : dentista.getEspecialidades()) {
@@ -62,13 +61,12 @@ public class DentistaDaoJdbc implements DentistaDao {
                     throw new DBException(e.getMessage());
 
                 } finally {
-                    st.close();
+                    DB.closeStatement();
+                    DB.closeResultset();
                 }
             }
-
         } catch (SQLException e) {
-            DB.closeStatement();
-            DB.closeResultset();
+            throw new DBException(e.getMessage());
         }
     }
 
@@ -184,7 +182,7 @@ public class DentistaDaoJdbc implements DentistaDao {
         try {
             PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_dentista_especialidade WHERE id_dentista = ?");
             st.setInt(1, idDentista);
-           ResultSet rs = st.executeQuery();
+            ResultSet rs = st.executeQuery();
 
             if (rs.first()) {
                 rs.first();
