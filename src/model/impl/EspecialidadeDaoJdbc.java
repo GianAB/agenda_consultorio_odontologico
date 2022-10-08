@@ -131,7 +131,7 @@ public class EspecialidadeDaoJdbc implements EspecialidadeDao {
     @Override
     public int deleteById(Integer id) {
         if (id == null) {
-            throw new NullPointerException("Não existe dentista com este id!");
+            throw new NullPointerException("Não existe especialidade com id nulo!");
         }
 
         int rowsAffected;

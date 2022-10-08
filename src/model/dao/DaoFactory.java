@@ -7,6 +7,7 @@ package model.dao;
 import db.DB;
 import model.impl.DentistaDaoJdbc;
 import model.impl.EspecialidadeDaoJdbc;
+import model.impl.ProcedimentoDaoJdbc;
 
 /**
  *
@@ -21,4 +22,8 @@ public class DaoFactory {
     public static EspecialidadeDao createEspecialidadeDao() {
         return new EspecialidadeDaoJdbc(DB.getConnection());
     }
+    public static ProcedimentoDao createProcedimentoDao() {
+        return new ProcedimentoDaoJdbc(DB.getConnection());
+    }
+
 }

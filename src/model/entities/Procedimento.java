@@ -19,6 +19,12 @@ public class Procedimento {
 
     }
 
+    public Procedimento(Integer id, String descricao, Float valor) {
+        this.id = id;
+        this.descricao = descricao;
+        this.valor = valor;
+    }
+
     public Procedimento(String descricao, Float valor, Especialidade especialidade) {
         this.descricao = descricao;
         this.valor = valor;

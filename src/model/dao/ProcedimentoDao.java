@@ -5,6 +5,7 @@
 package model.dao;
 
 import java.util.List;
+import model.dto.ProcedimentoDto;
 import model.entities.Procedimento;
 
 /**
@@ -17,10 +18,10 @@ public interface ProcedimentoDao {
 
     Procedimento findById(Integer id);
     
-    List<Procedimento> findAll();
+    List<ProcedimentoDto> findAll();
 
-    void update(Procedimento procedimento);
+    int update(Procedimento procedimento);
 
-    void deleteById(Integer id);
+    int deleteById(Integer id);
 
 }

@@ -2,12 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model.dao;
+package model.dto;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.entities.Dentista;
+import model.entities.Procedimento;
 import model.exceptions.ModelExceptions;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -15,15 +13,15 @@ import org.apache.commons.beanutils.BeanUtils;
  *
  * @author giang
  */
-public class DentistaDto {
+public class ProcedimentoDto {
 
     private Integer id;
-    private String nome;
-    private String cro;
+    private String descricao;
+    private Float valor;
 
-    public DentistaDto convertToDto(Dentista dentista) {
+    public ProcedimentoDto convertToDto(Procedimento procedimento) {
         try {
-            BeanUtils.copyProperty(this, "especialidades", dentista);
+            BeanUtils.copyProperty(this, "especialidade", procedimento);
 
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new ModelExceptions(e.getMessage());
@@ -31,15 +29,14 @@ public class DentistaDto {
         return this;
     }
 
-    public DentistaDto(String nome, String cro) {
-        this.nome = nome;
-        this.cro = cro;
+    public ProcedimentoDto() {
+
     }
 
-    public DentistaDto(Integer id, String nome, String cro) {
+    public ProcedimentoDto(Integer id, String descricao, Float valor) {
         this.id = id;
-        this.nome = nome;
-        this.cro = cro;
+        this.descricao = descricao;
+        this.valor = valor;
     }
 
     public Integer getId() {
@@ -50,29 +47,29 @@ public class DentistaDto {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getCro() {
-        return cro;
+    public Float getValor() {
+        return valor;
     }
 
-    public void setCro(String cro) {
-        this.cro = cro;
+    public void setValor(Float valor) {
+        this.valor = valor;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("DentistaDto{");
+        sb.append("ProcedimentoDto{");
         sb.append("id=").append(id);
-        sb.append(", nome=").append(nome);
-        sb.append(", cro=").append(cro);
+        sb.append(", descricao=").append(descricao);
+        sb.append(", valor=").append(valor);
         sb.append('}');
         return sb.toString();
     }

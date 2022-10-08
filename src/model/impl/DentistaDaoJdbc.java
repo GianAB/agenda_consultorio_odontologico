@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import db.DBException;
 import java.util.ArrayList;
 import model.dao.DaoFactory;
-import model.dao.DentistaDto;
+import model.dto.DentistaDto;
 import model.dao.EspecialidadeDao;
 import model.entities.Especialidade;
 

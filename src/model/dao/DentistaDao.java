@@ -4,6 +4,7 @@
  */
 package model.dao;
 
+import model.dto.DentistaDto;
 import java.util.List;
 import model.entities.Dentista;
 
