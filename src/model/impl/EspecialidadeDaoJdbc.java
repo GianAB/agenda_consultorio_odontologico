@@ -109,9 +109,9 @@ public class EspecialidadeDaoJdbc implements EspecialidadeDao {
         int rowsAffected;
 
         if (especialidade.getId() == null) {
-            throw new NullPointerException("Não existe especialidade com este id!");
+            throw new NullPointerException("Não existe especialidade com id  nulo!");
         }
-
+        
         try {
             PreparedStatement st = conn.prepareStatement("UPDATE tb_especialidade SET descricao = ? WHERE id = ?");
             st.setString(1, especialidade.getDescricao());

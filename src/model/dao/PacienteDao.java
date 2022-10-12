@@ -19,8 +19,8 @@ public interface PacienteDao {
 
     List<Paciente> findAll();
 
-    void update(Paciente paciente);
+    int update(Paciente paciente);
 
-    void deleteById(Integer id);
+    int deleteById(Integer id);
 
 }

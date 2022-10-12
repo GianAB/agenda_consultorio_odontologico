@@ -118,15 +118,13 @@ public class ProcedimentoDaoJdbc implements ProcedimentoDao {
         int rowsAffected;
 
         if (procedimento.getId() == null) {
-            throw new NullPointerException("Não existe procedimento id nulo!");
+            throw new NullPointerException("Não existe procedimento com id nulo!");
         }
 
         try {
-            Procedimento procedimentoOld = findById(procedimento.getId());
-            
             PreparedStatement st = conn.prepareStatement("UPDATE tb_procedimento SET descricao = ?, valor = ? WHERE id = ?");
-            st.setString(1, (procedimento.getDescricao().equals(procedimentoOld.getDescricao())) ? procedimentoOld.getDescricao() : procedimento.getDescricao());
-            st.setFloat(2, (procedimento.getValor().equals(procedimentoOld.getValor())) ? procedimentoOld.getValor() : procedimento.getValor());
+            st.setString(1, procedimento.getDescricao());
+            st.setFloat(2,procedimento.getValor());
             st.setInt(3, procedimento.getId());
 
             rowsAffected = st.executeUpdate();

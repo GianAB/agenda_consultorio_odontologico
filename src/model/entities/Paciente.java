@@ -19,6 +19,12 @@ public class Paciente {
 
     }
 
+    public Paciente(Integer id, String nome, String sobrenome) {
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+    }
+
     public Paciente(String nome, String sobrenome, String cpf) {
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -75,6 +81,5 @@ public class Paciente {
         sb.append('}');
         return sb.toString();
     }
-    
-    
+
 }

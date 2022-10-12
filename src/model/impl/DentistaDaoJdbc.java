@@ -26,6 +26,7 @@ import model.entities.Especialidade;
 public class DentistaDaoJdbc implements DentistaDao {
 
     private Connection conn;
+    private static EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
 
     public DentistaDaoJdbc(Connection conn) {
         this.conn = conn;
@@ -138,7 +139,7 @@ public class DentistaDaoJdbc implements DentistaDao {
         int rowsAffected;
 
         if (dentista.getId() == null) {
-            throw new NullPointerException("Não existe dentista com este id!");
+            throw new NullPointerException("Não existe dentista com id nulo!");
         }
 
         try {
@@ -186,7 +187,6 @@ public class DentistaDaoJdbc implements DentistaDao {
 
             if (rs.first()) {
                 rs.first();
-                EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
 
                 List<Especialidade> especialidades = new ArrayList<>();
 

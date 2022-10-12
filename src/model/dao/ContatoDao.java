@@ -4,6 +4,7 @@
  */
 package model.dao;
 
+import model.dto.ContatoDto;
 import model.entities.Contato;
 
 /**
@@ -14,10 +15,10 @@ public interface ContatoDao {
 
     void insert(Contato contato);
 
-    Contato findByPaciente(Integer idPaciente);
+    ContatoDto findContatoByPacienteId(Integer idPaciente);
 
-    void update(Contato contato);
+    int update(Contato contato);
 
-    void deleteByPaciente(Integer idPaciente);
+    int deleteContatoByIdPaciente(Integer idPaciente);
 
 }
