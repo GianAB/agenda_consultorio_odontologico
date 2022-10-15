@@ -15,12 +15,14 @@ public interface AnamneseDao {
 
     void insert(Anamnese anamnese);
 
-    Anamnese findById(Integer idConsulta, Integer idProcedimento);
-    
-    List<Anamnese> findAllPerConsulta(Integer idConsulta);
+    Anamnese findByIdConsultaAndIdProcedimento(Integer idConsulta, Integer idProcedimento);
 
-    void update(Anamnese anamnese);
+    List<Anamnese> findAllAnamnesePerIdConsulta(Integer idConsulta);
 
-    void deleteById(Integer idConsulta, Integer idProcedimento);
+    int update(Anamnese anamnese);
+
+    int deleteByIdConsultaAndIdProcedimento(Integer idConsulta, Integer idProcedimento);
+
+    int deleteByIdConsulta(Integer idConsulta);
 
 }

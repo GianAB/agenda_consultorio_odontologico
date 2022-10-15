@@ -27,7 +27,7 @@ public enum Pagamento {
 
     public static Pagamento toEnum(Byte cod) {
         if (cod == null) {
-            throw new NullPointerException("Este campo não pode ser nulo!");
+            throw new NullPointerException("Código de Pagamento inválido!");
         }
 
         for (Pagamento x : Pagamento.values()) {
@@ -38,19 +38,24 @@ public enum Pagamento {
         throw new IndexOutOfBoundsException("Este código não corresponde à nenhuma enumeração!");
     }
 
+    public static Pagamento toEnum(String valor) {
+        if (valor == null) {
+            throw new NullPointerException("Tipo de pagamento inválido!");
+        }
+
+        for (Pagamento x : Pagamento.values()) {
+           if(valor.equals(x.toString()) || valor.equals(x.getValor())){
+               return x;
+           }
+        }
+        throw new IndexOutOfBoundsException("Este código não corresponde à nenhuma enumeração!");
+    }
+
     public Byte getCod() {
         return cod;
     }
-
-    public void setCod(Byte cod) {
-        this.cod = cod;
-    }
-
+    
     public String getValor() {
         return valor;
-    }
-
-    public void setValor(String valor) {
-        this.valor = valor;
     }
 }

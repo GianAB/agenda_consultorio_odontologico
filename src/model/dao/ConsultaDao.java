@@ -4,8 +4,8 @@
  */
 package model.dao;
 
+import java.time.LocalDate;
 import java.util.List;
-import model.entities.Anamnese;
 import model.entities.Consulta;
 
 /**
@@ -17,13 +17,11 @@ public interface ConsultaDao {
     void insert(Consulta consulta);
 
     Consulta findById(Integer id);
+
+    List<Consulta> findPerDayOfTheWeek(LocalDate dt_consulta);
+
+    int update(Consulta consulta);
+
+    int deleteById(Integer id);
     
-    List<Consulta> findAll();
-    
-    void update(Consulta consulta);
-
-    void deleteById(Integer id);
-
-    List<Anamnese> findAnamnesesByConsulta(Integer id);
-
 }

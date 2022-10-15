@@ -22,6 +22,11 @@ public class Consulta {
 
     }
 
+    public Consulta(Integer id, Instant dt_termino) {
+        this.id = id;
+        this.dt_termino = dt_termino;
+    }
+
     public Consulta(Instant dt_inicio, Dentista dentista, Paciente paciente) {
         this.dt_inicio = dt_inicio;
         this.dentista = dentista;

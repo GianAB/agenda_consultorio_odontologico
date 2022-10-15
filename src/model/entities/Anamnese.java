@@ -28,6 +28,13 @@ public class Anamnese {
         this.pagamento = Pagamento.PENDENTE;
     }
 
+    public Anamnese(Consulta consulta, Procedimento procedimento, Short quantidade, Pagamento pagamento) {
+        this.consulta = consulta;
+        this.procedimento = procedimento;
+        this.quantidade = quantidade;
+        this.pagamento = pagamento;
+    }
+
     public Consulta getConsulta() {
         return consulta;
     }
@@ -59,6 +66,10 @@ public class Anamnese {
     public void setPagamento(Byte cod) {
         this.pagamento = Pagamento.toEnum(cod);
     }
+    
+    public void setPagamento(String valor) {
+        this.pagamento = Pagamento.toEnum(valor);
+    }
 
     public Float getValor() {
         return this.quantidade * this.procedimento.getValor();
@@ -71,6 +82,7 @@ public class Anamnese {
         sb.append("consulta=").append(consulta);
         sb.append(", procedimento=").append(procedimento);
         sb.append(", quantidade=").append(quantidade);
+        sb.append(", Valor total=").append(this.getValor());
         sb.append(", pagamento=").append(pagamento.getValor());
         sb.append('}');
         return sb.toString();

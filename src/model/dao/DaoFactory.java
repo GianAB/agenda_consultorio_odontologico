@@ -5,6 +5,8 @@
 package model.dao;
 
 import db.DB;
+import model.impl.AnamneseDaoJdbc;
+import model.impl.ConsultaDaoJdbc;
 import model.impl.ContatoDaoJdbc;
 import model.impl.DentistaDaoJdbc;
 import model.impl.EspecialidadeDaoJdbc;
@@ -35,6 +37,14 @@ public class DaoFactory {
 
     public static ContatoDao createContatoDao() {
         return new ContatoDaoJdbc(DB.getConnection());
+    }
+
+    public static ConsultaDao createConsultaDao() {
+        return new ConsultaDaoJdbc(DB.getConnection());
+    }
+
+    public static AnamneseDao createAnamneseDao() {
+        return new AnamneseDaoJdbc(DB.getConnection());
     }
 
 }
