@@ -8,6 +8,7 @@ import application.Main;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -45,24 +46,28 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     public void onAgendaAction() {
-        this.loadView("/gui/AgendaFXML.fxml");
+        this.loadView("/gui/AgendaFXML.fxml", x -> {});
 
     }
 
     @FXML
     public void onPacientesAction() {
-        this.loadView2("/gui/PacientesFXML.fxml");
+        this.loadView("/gui/PacientesFXML.fxml", (PacientesFXMLController controller) ->{
+            controller.setPacienteService(new PacienteService());
+            controller.updateTableView();
+        });
+        
     }
 
     @FXML
     public void onDentistasAction() {
-        this.loadView("/gui/DentistasFXML.fxml");
+        this.loadView("/gui/DentistasFXML.fxml", x ->{});
     }
 
-    private synchronized void loadView(String diretorioCompleto) {
+    private synchronized <T> void loadView(String diretorioCompleto, Consumer<T> inicializacaoElemento) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(diretorioCompleto));
         try {
-            
+
             VBox vbMain = loader.load();
             Scene mainScene = Main.getMainScene();
             ScrollPane mainScrollPane = (ScrollPane) ((BorderPane) mainScene.getRoot()).getCenter();
@@ -70,30 +75,10 @@ public class MainFXMLController implements Initializable {
             vbMain.prefHeightProperty().bind(mainScene.heightProperty());
 
             mainScrollPane.setContent(vbMain);
-
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao tentar acessar a tela", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private synchronized void loadView2(String diretorioCompleto) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(diretorioCompleto));
             
-            VBox vbMain = loader.load();
+            T controller = loader.getController();
+            inicializacaoElemento.accept(controller);
             
-            Scene mainScene = Main.getMainScene();
-            ScrollPane mainScrollPane = (ScrollPane) ((BorderPane) mainScene.getRoot()).getCenter();
-
-            PacientesFXMLController controller = loader.getController();
-            controller.setPacienteService(new PacienteService());
-            
-            controller.updateTableView();
-            
-            vbMain.prefHeightProperty().bind(mainScene.heightProperty());
-
-            mainScrollPane.setContent(vbMain);
-
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao tentar acessar a tela", JOptionPane.ERROR_MESSAGE);
         }
