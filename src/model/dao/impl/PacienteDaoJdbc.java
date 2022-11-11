@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model.impl;
+package model.dao.impl;
 
 import db.DB;
 import db.DBException;
@@ -12,42 +12,40 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.dao.ContatoDao;
 import model.dao.DaoFactory;
-import model.dao.EspecialidadeDao;
-import model.dao.ProcedimentoDao;
-import model.dto.ProcedimentoDto;
-import model.entities.Especialidade;
-import model.entities.Procedimento;
+import model.dao.PacienteDao;
+import model.entities.Paciente;
 
 /**
  *
  * @author giang
  */
-public class ProcedimentoDaoJdbc implements ProcedimentoDao {
+public class PacienteDaoJdbc implements PacienteDao {
 
     private Connection conn;
-    private EspecialidadeDao especialidadeDao = DaoFactory.createEspecialidadeDao();
 
-    public ProcedimentoDaoJdbc(Connection conn) {
+    private static ContatoDao contatoDao = DaoFactory.createContatoDao();
+
+    public PacienteDaoJdbc(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public void insert(Procedimento procedimento) {
+    public void insert(Paciente paciente) {
         try {
-            PreparedStatement st = conn.prepareStatement("INSERT INTO tb_procedimento(descricao, valor,  id_especialidade) VALUES(?, ?, ?)",
+            PreparedStatement st = conn.prepareStatement("INSERT INTO tb_paciente(nome, sobrenome, cpf) VALUES(?, ?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS);
-
-            st.setString(1, procedimento.getDescricao());
-            st.setFloat(2, procedimento.getValor());
-            st.setInt(3, procedimento.getEspecialidade().getId());
+            st.setString(1, paciente.getNome());
+            st.setString(2, paciente.getSobrenome());
+            st.setString(3, paciente.getCpf());
 
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
                 ResultSet rs = st.getGeneratedKeys();
                 rs.first();
-                procedimento.setId(rs.getInt(1));
+                paciente.setId(rs.getInt(1));
                 DB.closeResultset();
             }
 
@@ -60,21 +58,21 @@ public class ProcedimentoDaoJdbc implements ProcedimentoDao {
     }
 
     @Override
-    public Procedimento findById(Integer id) {
-        Procedimento procedimento = null;
+    public Paciente findById(Integer id) {
+        Paciente  paciente;
 
         try {
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_procedimento WHERE id = ?");
+            PreparedStatement st = conn.prepareStatement(" SELECT * FROM tb_paciente WHERE id = ?");
+            
             st.setInt(1, id);
 
             ResultSet rs = st.executeQuery();
 
             if (rs.first()) {
                 rs.first();
-                Especialidade especialidade = especialidadeDao.findById(rs.getInt("id_especialidade"));
-                procedimento = new Procedimento(rs.getInt("id"), rs.getString("descricao"), rs.getFloat("valor"), especialidade);
+                paciente = new Paciente(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("cpf"));
 
-                return procedimento;
+                return paciente;
             }
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
@@ -87,21 +85,20 @@ public class ProcedimentoDaoJdbc implements ProcedimentoDao {
     }
 
     @Override
-    public List<ProcedimentoDto> findAll() {
-        List<ProcedimentoDto> procedimentosDto = new ArrayList<>();
+    public List<Paciente> findAll() {
+        List<Paciente> pacientes = new ArrayList<>();
         try {
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_procedimento");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM tb_paciente");
             ResultSet rs = st.executeQuery();
 
             if (rs.first()) {
                 rs.first();
 
                 do {
-                    procedimentosDto.add(new ProcedimentoDto(rs.getInt("id"), rs.getString("descricao"), rs.getFloat("valor")));
-
+                    pacientes.add(new Paciente(rs.getInt("id"), rs.getString("nome"), rs.getString("sobrenome"), rs.getString("cpf")));
                 } while (rs.next());
 
-                return procedimentosDto;
+                return pacientes;
             }
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
@@ -114,27 +111,24 @@ public class ProcedimentoDaoJdbc implements ProcedimentoDao {
     }
 
     @Override
-    public int update(Procedimento procedimento) {
+    public int update(Paciente paciente) {
         int rowsAffected;
 
-        if (procedimento.getId() == null) {
-            throw new NullPointerException("Não existe procedimento com id nulo!");
+        if (paciente.getId() == null) {
+            throw new NullPointerException("Não existe paciente com id nulo!");
         }
 
         try {
-            PreparedStatement st = conn.prepareStatement("UPDATE tb_procedimento SET descricao = ?, valor = ? WHERE id = ?");
-            st.setString(1, procedimento.getDescricao());
-            st.setFloat(2,procedimento.getValor());
-            st.setInt(3, procedimento.getId());
+            PreparedStatement st = conn.prepareStatement("UPDATE tb_paciente SET nome = ?, sobrenome = ? WHERE id = ?");
+            st.setString(1, paciente.getNome());
+            st.setString(2, paciente.getSobrenome());
+            st.setInt(3, paciente.getId());
 
             rowsAffected = st.executeUpdate();
 
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
 
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Nenhuma linha afetada!");
-            
         } finally {
             DB.closeStatement();
         }
@@ -144,13 +138,13 @@ public class ProcedimentoDaoJdbc implements ProcedimentoDao {
     @Override
     public int deleteById(Integer id) {
         if (id == null) {
-            throw new NullPointerException("Não existe procedimento com id nulo!");
+            throw new NullPointerException("Não existe paciente com id nulo!");
         }
 
         int rowsAffected;
 
         try {
-            PreparedStatement st = conn.prepareStatement("DELETE FROM tb_procedimento WHERE id = ?");
+            PreparedStatement st = conn.prepareStatement("DELETE FROM tb_paciente WHERE id = ?");
             st.setInt(1, id);
             rowsAffected = st.executeUpdate();
 

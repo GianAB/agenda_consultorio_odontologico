@@ -5,13 +5,13 @@
 package model.dao;
 
 import db.DB;
-import model.impl.AnamneseDaoJdbc;
-import model.impl.ConsultaDaoJdbc;
-import model.impl.ContatoDaoJdbc;
-import model.impl.DentistaDaoJdbc;
-import model.impl.EspecialidadeDaoJdbc;
-import model.impl.PacienteDaoJdbc;
-import model.impl.ProcedimentoDaoJdbc;
+import model.dao.impl.AnamneseDaoJdbc;
+import model.dao.impl.ConsultaDaoJdbc;
+import model.dao.impl.ContatoDaoJdbc;
+import model.dao.impl.DentistaDaoJdbc;
+import model.dao.impl.EspecialidadeDaoJdbc;
+import model.dao.impl.PacienteDaoJdbc;
+import model.dao.impl.ProcedimentoDaoJdbc;
 
 /**
  *

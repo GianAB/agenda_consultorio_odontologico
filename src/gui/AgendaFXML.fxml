@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="vbMainCenter" prefHeight="373.0" prefWidth="477.0" style="-fx-background-color: #79ae92;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AgendaFXMLController">
+   <children>
+      <Label text="AGENDA">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" text="AGENDA DO DIA COM TODAS AS CONSULTAS QUE ESTÃO MARCADAS E ALGUMA OUTRA INFORMAÇÃO IMPORTANTE SOBRE O AGENDAMENTO" wrapText="true" />
+   </children>
+</VBox>

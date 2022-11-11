@@ -4,6 +4,7 @@
  */
 package application;
 
+import db.DB;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +24,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainFXML.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainFXML.fxml"));
             BorderPane borderPane = loader.load();
             ScrollPane scrollPaneCenter = (ScrollPane) borderPane.getCenter();
 
@@ -37,7 +38,11 @@ public class Main extends Application {
 
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
+        
+        }finally{
+            DB.closeConnection();
         }
+        
     }
 
     public static Scene getMainScene() {

@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bdMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainFXMLController">
+<BorderPane fx:id="bdMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainFXMLController">
     <center>
-        <ScrollPane prefHeight="375.0" prefWidth="430.0" BorderPane.alignment="CENTER">
+        <ScrollPane BorderPane.alignment="CENTER">
             <content>
-                <VBox fx:id="vbMainCenter" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #79ae92;">
+                <VBox fx:id="vbMainCenter" nodeOrientation="LEFT_TO_RIGHT" prefHeight="373.0" prefWidth="477.0" style="-fx-background-color: #79ae92;">
                     <children>
-                        <Label text="HOME">
+                        <Label text="HOME" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="System Bold" size="35.0" />
                      </font></Label>
@@ -51,7 +51,7 @@
     <left>
         <VBox fx:id="vbMainLeft" prefHeight="375.0" prefWidth="120.0" style="-fx-background-color: #000000;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btnHome" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onHomeAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Home" textFill="#fbffcd">
+                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onHomeAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Home" textFill="#fbffcd">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -59,7 +59,7 @@
                         <Font name="Consolas" size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnAgenda" mnemonicParsing="false" onAction="#onAgendaAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Agenda" textFill="#fbffcd">
+                <Button mnemonicParsing="false" onAction="#onAgendaAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Agenda" textFill="#fbffcd">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -67,7 +67,7 @@
                         <Font name="Consolas" size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnPacientes" mnemonicParsing="false" onAction="#onPacientesAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Pacientes" textFill="#fbffcd">
+                <Button mnemonicParsing="false" onAction="#onPacientesAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Pacientes" textFill="#fbffcd">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
@@ -75,7 +75,7 @@
                         <Font name="Consolas" size="16.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnDentistas" mnemonicParsing="false" onAction="#onDentistasAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Dentistas" textFill="#fbffcd">
+                <Button mnemonicParsing="false" onAction="#onDentistasAction" prefHeight="41.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Dentistas" textFill="#fbffcd">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets>
