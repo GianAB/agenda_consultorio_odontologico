@@ -5,6 +5,7 @@
 package gui;
 
 import application.Main;
+import gui.utils.Alerts;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -30,9 +32,9 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     public void onHomeAction() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainFXML.fxml"));
+        
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainFXML.fxml"));
-
             VBox mainVBox = (VBox) ((ScrollPane) ((BorderPane) loader.load()).getCenter()).getContent();
 
             Scene mainScene = Main.getMainScene();
@@ -40,28 +42,30 @@ public class MainFXMLController implements Initializable {
             ((ScrollPane) ((BorderPane) mainScene.getRoot()).getCenter()).setContent(mainVBox);
 
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+            Alerts.showAlert(Alert.AlertType.ERROR, "Erro ao carregar a tela", null, e.getCause().toString());
         }
     }
 
     @FXML
     public void onAgendaAction() {
-        this.loadView("/gui/AgendaFXML.fxml", x -> {});
+        this.loadView("/gui/AgendaFXML.fxml", x -> {
+        });
 
     }
 
     @FXML
     public void onPacientesAction() {
-        this.loadView("/gui/PacientesFXML.fxml", (PacientesFXMLController controller) ->{
+        this.loadView("/gui/PacientesFXML.fxml", (PacientesFXMLController controller) -> {
             controller.setPacienteService(new PacienteService());
             controller.updateTableView();
         });
-        
+
     }
 
     @FXML
     public void onDentistasAction() {
-        this.loadView("/gui/DentistasFXML.fxml", x ->{});
+        this.loadView("/gui/DentistasFXML.fxml", x -> {
+        });
     }
 
     private synchronized <T> void loadView(String diretorioCompleto, Consumer<T> inicializacaoElemento) {
@@ -75,12 +79,12 @@ public class MainFXMLController implements Initializable {
             vbMain.prefHeightProperty().bind(mainScene.heightProperty());
 
             mainScrollPane.setContent(vbMain);
-            
+
             T controller = loader.getController();
             inicializacaoElemento.accept(controller);
-            
+
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro ao tentar acessar a tela", JOptionPane.ERROR_MESSAGE);
+            Alerts.showAlert(Alert.AlertType.ERROR, "Erro ao carregar a tela", null, e.getCause().toString());
         }
     }
 
@@ -91,5 +95,4 @@ public class MainFXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }
-
 }
