@@ -55,7 +55,7 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     public void onPacientesAction() {
-        this.loadView("/gui/PacientesFXML.fxml", (PacientesFXMLController controller) -> {
+        this.loadView("/gui/PacienteFXML.fxml", (PacienteFXMLController controller) -> {
             controller.setPacienteService(new PacienteService());
             controller.updateTableView();
         });
@@ -64,7 +64,7 @@ public class MainFXMLController implements Initializable {
 
     @FXML
     public void onDentistasAction() {
-        this.loadView("/gui/DentistasFXML.fxml", x -> {
+        this.loadView("/gui/DentistaFXML.fxml", x -> {
         });
     }
 

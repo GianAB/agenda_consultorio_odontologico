@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vbMainCenter" prefHeight="373.0" prefWidth="477.0" style="-fx-background-color: #79ae92;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PacientesFXMLController">
+<VBox fx:id="vbMainCenter" prefHeight="373.0" prefWidth="477.0" style="-fx-background-color: #79ae92;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PacienteFXMLController">
    <children>
       <Label text="PACIENTES">
          <font>
